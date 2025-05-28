@@ -1,18 +1,44 @@
-## Getting Started
+# Temple Run Gesture Controller 🎮🖐️
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Control Temple Run with your bare hands using Python, OpenCV, and MediaPipe!
 
-## Folder Structure
+This real-time computer vision project lets you use hand gestures to play Temple Run inside an Android emulator like Bluestacks — no keyboard or controller needed.
 
-The workspace contains two folders by default, where:
+## 🔥 Demo
+- ✊ **Fist** → Slide (↓)
+- ☝️ **1 Finger** → Turn Left (←)
+- ✌️ **2 Fingers** → Turn Right (→)
+- 🤟 **3 Fingers** → Jump (↑)
+- 🤚 **Tilt** left/right → Lane movement (A/D keys)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## 🧠 Tech Stack
+- Python
+- OpenCV
+- MediaPipe
+- pynput
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## 🚀 How to Run
+1. Clone this repo:
+    ```bash
+    git clone https://github.com/shashwater/temple-run-gesture-controller.git
+    cd temple-run-gesture-controller
+    ```
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+2. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## Dependency Management
+3. Launch Temple Run in Bluestacks and focus the window
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+4. Run the controller:
+    ```bash
+    python3 src/main.py
+    ```
+
+## 📹 What It Does
+Your webcam detects your hand gestures, translates them to keyboard inputs (`↑ ↓ ← → a d`), and sends them to the focused window — letting you control Temple Run like a Jedi.
+
+---
+
+Made with 👊 and caffeine by [@shashwater](https://github.com/shashwater)
