@@ -1,44 +1,46 @@
-# Temple Run Gesture Controller 🎮🖐️
+# Temple Run Gesture Controller
 
-Control Temple Run with your bare hands using Python, OpenCV, and MediaPipe!
+Play Temple Run using hand gestures captured by your webcam.
 
-This real-time computer vision project lets you use hand gestures to play Temple Run inside an Android emulator like Bluestacks — no keyboard or controller needed.
+The controller uses MediaPipe hand landmarks, classifies finger positions and hand tilt, then sends keyboard input to the focused game window.
 
-## 🔥 Demo
-- ✊ **Fist** → Slide (↓)
-- ☝️ **1 Finger** → Turn Left (←)
-- ✌️ **2 Fingers** → Turn Right (→)
-- 🤟 **3 Fingers** → Jump (↑)
-- 🤚 **Tilt** left/right → Lane movement (A/D keys)
+## Controls
 
-## 🧠 Tech Stack
-- Python
-- OpenCV
-- MediaPipe
-- pynput
+| Gesture | Action | Key |
+| --- | --- | --- |
+| Fist | Slide | Down arrow |
+| One finger | Turn left | Left arrow |
+| Two fingers | Turn right | Right arrow |
+| Three fingers | Jump | Up arrow |
+| Hand tilt | Change lane | A / D |
 
-## 🚀 How to Run
-1. Clone this repo:
-    ```bash
-    git clone https://github.com/shashwater/temple-run-gesture-controller.git
-    cd temple-run-gesture-controller
-    ```
+## How it works
 
-2. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+`Webcam → OpenCV frames → MediaPipe landmarks → gesture rules → keyboard events`
 
-3. Launch Temple Run in Bluestacks and focus the window
+- `src/main.py` captures frames, runs hand tracking and displays the detected gesture.
+- `src/gestures.py` classifies raised fingers and hand tilt.
+- `src/controller.py` maps gestures to keyboard events. Turn, slide and jump actions use a one-second repeat cooldown.
 
-4. Run the controller:
-    ```bash
-    python3 src/main.py
-    ```
+## Run locally
 
-## 📹 What It Does
-Your webcam detects your hand gestures, translates them to keyboard inputs (`↑ ↓ ← → a d`), and sends them to the focused window — letting you control Temple Run like a Jedi.
+```bash
+git clone https://github.com/shashwater/temple-run-gesture-controller.git
+cd temple-run-gesture-controller
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 src/main.py
+```
 
----
+Launch Temple Run in an Android emulator and focus its window before using the controller. On Windows, activate the environment with `.venv\Scripts\activate`.
 
-Made with 👊 and caffeine by [@shashwater](https://github.com/shashwater)
+Press `q` in the camera window to stop. Your OS may ask for camera and keyboard-control permissions.
+
+## Limitations
+
+This is a rule-based prototype for one hand. Lighting, camera angle and hand position affect recognition. Tilt events repeat while the hand stays tilted. Dependencies are not yet version-pinned.
+
+## Stack
+
+Python · OpenCV · MediaPipe · NumPy · pynput
