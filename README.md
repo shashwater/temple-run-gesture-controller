@@ -19,7 +19,7 @@ The controller uses MediaPipe hand landmarks, classifies finger positions and ha
 `Webcam → OpenCV frames → MediaPipe landmarks → gesture rules → keyboard events`
 
 - `src/main.py` captures frames, runs hand tracking and displays the detected gesture.
-- `src/gestures.py` classifies raised fingers and hand tilt.
+- `src/gestures.py` classifies extended fingers (rotation-invariant: tip farther from the wrist than its middle joint) and hand tilt.
 - `src/controller.py` maps gestures to keyboard events. Turn, slide and jump actions use a one-second repeat cooldown.
 
 ## Run locally
@@ -36,6 +36,17 @@ python3 src/main.py
 Launch Temple Run in an Android emulator and focus its window before using the controller. On Windows, activate the environment with `.venv\Scripts\activate`.
 
 Press `q` in the camera window to stop. Your OS may ask for camera and keyboard-control permissions.
+
+## Accuracy
+
+Measured on 259 labeled hand images (public HaGRID sample, fist / one / two / three fingers / open palm) with the setup in [gesture-bench](https://github.com/shashwater/gesture-bench). The original rule compared y coordinates, which assumes an upright hand.
+
+| | original | current |
+| --- | --- | --- |
+| Held-out half (129 images) | 78.3% | 87.6% |
+| Open palm wrongly triggering an action | 28% | 2% |
+
+MediaPipe Hands runs at about 18 ms per frame on a 2-core CPU. These are static-image numbers, not live-webcam play. Run `python3 tests/test_gestures.py` for the rotation tests.
 
 ## Limitations
 
