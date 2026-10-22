@@ -1,4 +1,35 @@
+import math
+
+TIPS = (8, 12, 16, 20)  # Index, Middle, Ring, Pinky fingertips (thumb ignored for reliability)
+EXTEND_RATIO = 1.1       # tip must be this much farther from the wrist than its PIP joint
+
+
+def _dist(a, b):
+    return math.hypot(a.x - b.x, a.y - b.y)
+
+
+def fingers_extended(hand_landmarks):
+    """Rotation-invariant: a finger is extended when its tip is farther from the wrist
+    than its middle (PIP) joint, so it works with a tilted or sideways hand."""
+    lm = hand_landmarks.landmark
+    return tuple(_dist(lm[t], lm[0]) > _dist(lm[t - 2], lm[0]) * EXTEND_RATIO for t in TIPS)
+
+
+_GESTURES = {
+    (False, False, False, False): "Slide",  # Fist
+    (True, False, False, False): "Left",    # Index only
+    (True, True, False, False): "Right",    # Index + middle
+    (True, True, True, False): "Jump",      # Index + middle + ring
+}
+
+
 def detect_gesture(hand_landmarks):
+    # Requires the exact finger set, so index+pinky no longer counts as "two fingers"
+    return _GESTURES.get(fingers_extended(hand_landmarks), "Unknown")
+
+
+def detect_gesture_legacy(hand_landmarks):
+    """Original rule (assumes an upright hand), kept for benchmarking."""
     tips = [4, 8, 12, 16, 20]  # Thumb, Index, Middle, Ring, Pinky
     fingers_up = []
 
